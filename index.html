@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Sirius Zen — Illuminate the future</title>
+  <title>Zynx — Illuminate the future</title>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@600&display=swap" rel="stylesheet">
   <meta name="description" content="Sirius Zen — futuristic tech studio. Mohana Krishnan, ML Developer & 2nd-year AI & DS student. Innovative AI & cloud solutions inspired by the stars.">
@@ -208,7 +208,7 @@
           <path d="M12 2l1.902 4.856L19 8.18l-4 3.094.944 5.4L12 14.9 8.056 16.674 9 11.274 5 8.18l5.098-1.324L12 2z" fill="url(#g)"/>
         </svg>
       </div>
-      <div class="brand-title">Sirius Zen</div>
+      <div class="brand-title">Zynx</div>
     </div>
 
     <nav class="primary" role="navigation" aria-label="Primary Navigation">
@@ -222,9 +222,9 @@
   <!-- HERO (centered content on first page) -->
   <section class="section hero" id="home">
     <div class="hero-inner" role="banner">
-      <div class="brand">Sirius Zen</div>
-      <h1 class="title"><span class="shine">Sirius Zen</span></h1>
-      <p class="lead">Illuminating the future of technology — we build elegant machine learning systems, cloud-native platforms, and AI-powered products that redefine possibility.</p>
+      <div class="brand">Zyn-x</div>
+      <h1 class="title"><span class="shine">Zyn-x</span></h1>
+      <p class="lead">Illuminating the future of technology — we build elegant machine learning systems, cloud-native platforms, AI-powered products, and beautiful web design. From frontend experiences and backend services to resilient databases, we create end-to-end solutions that redefine possibility.</p>
 
       <div class="cta-row">
         <button class="btn btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get in touch</button>
@@ -238,8 +238,8 @@
   <!-- ABOUT -->
   <section class="section" id="about">
     <div class="card reveal">
-      <h2>About Sirius Zen</h2>
-      <p class="muted">Sirius Zen is a futuristic technology studio crafting intelligent software and ML-driven solutions. We marry astrophysical inspiration with practical machine learning to create products that are beautiful, reliable, and scalable.</p>
+      <h2>About Zynx</h2>
+      <p class="muted">Zynx is a futuristic technology studio crafting intelligent software and ML-driven solutions. We marry astrophysical inspiration with practical machine learning to create products that are beautiful, reliable, and scalable.</p>
     </div>
   </section>
 
@@ -247,7 +247,7 @@
   <section class="section" id="vision">
     <div class="card reveal">
       <h2>Vision</h2>
-      <p class="muted">To lead a new generation of technology companies that use machine intelligence to expand human capabilities and make complex systems intuitive and accessible.</p>
+      <p class="muted">To lead a new generation of technology companies that use machine intelligence, modern design, and innovative web technologies to expand human capabilities and make complex systems intuitive and accessible.</p>
     </div>
   </section>
 
@@ -267,12 +267,13 @@
         <!-- Replace the original MK avatar with your cropped image. -->
         <div class="avatar">
           <!-- local file produced: /mnt/data/dd25f08b-023e-4526-b104-3bf5fba948a2.jpg (circular PNG with transparency) -->
-          <img src="/mnt/data/founder_avatar.png" alt="Mohana Krishnan">
+          <img src="images/avator.png" alt="avatar">
         </div>
         <div class="meta">
           <h3>Mohana Krishnan</h3>
-          <p class="muted">ML Developer & 2nd-year AI & DS student — I specialize in machine learning, model development, and deploying scalable AI systems. I build end-to-end ML pipelines, production-ready models, and data-driven products aligned with business value.</p>
-          <p class="muted" style="margin-top:10px"><strong>Skills:</strong> Python, TensorFlow / PyTorch, Scikit-learn, Docker, Kubernetes, Cloud (AWS/GCP), Data Engineering, MLOps.</p>
+          <p class="muted">Machine Learning Developer | AI & DS Student (2nd Year)
+I build ML models, optimize model performance, and deploy real-world AI solutions. Experienced in full-stack development, allowing me to create complete, scalable, and user-focused data products from frontend to backend.</p>
+          <p class="muted" style="margin-top:10px"><strong>Skills:</strong> Python, TensorFlow / PyTorch, Scikit-learn, Docker, Cloud (AWS/GCP), Data Engineering, MLOps.</p>
         </div>
       </div>
     </div>
@@ -300,7 +301,7 @@
   </section>
 
   <footer>
-    &copy; <span id="year"></span> Sirius Zen — Mohana Krishnan. Built with ❤
+    &copy; <span id="year"></span> Zynx.com — Mohana Krishnan. Built with ❤
   </footer>
 
   <script>
@@ -394,25 +395,41 @@
     })();
 
     // contact form: send to backend API
-    document.getElementById('contactForm').addEventListener('submit', async function(e){
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const name = document.getElementById('name').value.trim();
       const email = document.getElementById('email').value.trim();
       const message = document.getElementById('message').value.trim();
 
       const btn = this.querySelector('button[type="submit"]');
-      const originalText = btn.textContent;
       btn.disabled = true;
       btn.textContent = "Sending...";
 
-      // Simulate successful submission
-      setTimeout(() => {
-        alert('✅ Message sent successfully! (Demo mode)');
-        this.reset();
+      try {
+        const response = await fetch('http://localhost:3000/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name, email, message })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          alert('✅ Message sent successfully!');
+          this.reset();
+        } else {
+          alert('❌ Error: ' + (data.error || 'Failed to send message'));
+        }
+      } catch (err) {
+        alert('❌ Error connecting to server');
+        console.error(err);
+      } finally {
         btn.disabled = false;
-        btn.textContent = originalText;
-      }, 1000);
-   });
+        btn.textContent = "Send Message";
+      }
+    });
 
 
     // Try Our Apps playful animation
